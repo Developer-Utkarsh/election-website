@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and Contact Info */}
-          <div className="bg-white p-6 rounded-lg flex justify-center items-center w-full text-left">
+          <div className="bg-white p-6 rounded-lg flex justify-center items-center flex-col w-full text-left">
             <img src={logo} alt="Logo" className="w-24 h-24 mb-4" />
             <p className="text-gray-600 mb-4">
               Together we the people achieve more than any single person could ever do alone.
