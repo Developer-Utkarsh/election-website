@@ -64,7 +64,7 @@ const Footer = () => {
       </div>
       <div className="bg-blue-900 py-4 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>Copyright 2023 © Ali Mehdi by Codeblish</p>
+          <p>©2024 Ali mehndi, made with ❤ by Campaigning Source, all right reserved</p>
         </div>
       </div>
     </footer>
