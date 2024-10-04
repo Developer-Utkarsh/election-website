@@ -8,14 +8,14 @@ const About = () => {
         <div className="max-w-xl mx-auto lg:ml-auto lg:mr-0">
           <div className="border-l-4 border-primary pl-4">
             <h3 className="text-gray-600 text-base sm:text-lg font-medium mb-2">About</h3>
-            <h2 className="text-primary text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">ABOUT ALI MEHDI</h2>
+            <h2 className="text-primary text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">अली मेहदी – जनसेवा के लिए एक नेता</h2>
           </div>
           <div className="space-y-4 text-gray-600 mt-8 sm:mt-12">
             <p className="text-sm sm:text-base">
-              Accumsan voluptat ocurreret id nam, solet numquam accommodare quo et. Et vidit choro aliquid pro, ad inani eirmod vituperata duo. Ut ludus vulputate qui, movartem iscom modare eos no, vix error percipitur.
+              Ali Mehdi is a political leader focusing on janseva. A lifelong resident of Mustafabad, he deeply understands the struggles and problems of the local people. His mission is to serve everyone, fighting for social equality, and ensuring that every citizen receives the rights and opportunities they deserve.
             </p>
             <p className="text-sm sm:text-base">
-              Nunc, blandit libero, blandit nunc diam rhoncus viverra. Et nec tellus nulla erisque ultricies massa sagittis dictum malesuada. Urna id velit, quis motti nibh duis massa odio, laculis massa duis sit tellus adipiscing. Cursus amet.
+              Having worked closely with welfare programs and NGOs, Ali's experience in solving social issues like unemployment and social discrimination provides him with strong foundations. His strong connection with the youth of Mustafabad has led him to focus on yuva rozgar yojana and skill development initiatives.
             </p>
           </div>
           <button className="mt-6 sm:mt-8 bg-blue-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-blue-700 transition duration-300 inline-flex items-center text-sm sm:text-base">
@@ -26,12 +26,10 @@ const About = () => {
           </button>
         </div>
       </div>
-      
-      {/* Right side - Image placeholder with light blue background */}
-      <div className="w-full lg:w-1/3 bg-[#F1F5FA] min-h-[300px] lg:min-h-[500px]">
-        <div className="h-full flex items-center justify-center relative">
-          <div className="bg-gray-300 w-3/4 h-3/4 rounded-lg absolute left-0 lg:-left-[15%] transform -translate-x-1/4 lg:-translate-x-[15%]"></div>
-        </div>
+      {/* Right side - Image (you can add an image of Ali Mehdi here) */}
+      <div className="w-full lg:w-1/2 bg-gray-100">
+        {/* Add an image here */}
+        <img src="/2.jpg" alt="Ali Mehdi About Image" />
       </div>
     </div>
   );

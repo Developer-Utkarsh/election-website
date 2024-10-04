@@ -15,27 +15,27 @@ const SocialCard = ({ title, date, description }) => (
 const Socials = () => {
   const socialPosts = [
     {
-      title: 'A Vision For Rural...',
-      date: 'Single Post Home - Single Post January 11, 2024 Audio, 2024 Ali Concept Statement',
-      description: 'Rural Economics Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel...'
+      title: 'Vision for Mustafabad',
+      date: 'Twitter - May 15, 2024',
+      description: 'Our plan for Mustafabad focuses on youth employment, education reform, and improved healthcare. Together, we can build a brighter future! #AliForMustafabad'
     },
     {
-      title: 'Seven Bipartisan Issues For...',
-      date: 'Single Post Home - Single Post January 11, 2024 Audio, 2024 Ali Concept Statement',
-      description: 'Bipartisan Issues for 2024 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent...'
+      title: 'Community Outreach Program',
+      date: 'Facebook - May 18, 2024',
+      description: 'Engaging with local residents to understand their needs and concerns. Your voice matters in shaping the future of Mustafabad. #CommunityFirst'
     },
     {
-      title: 'Statement From Ali Mehdi',
-      date: 'Single Post Home - Single Post January 11, 2024 Audio, 2024 Ali Concept Statement',
-      description: 'From Alee Dolore Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel...'
+      title: 'Environmental Initiative Launch',
+      date: 'Instagram - May 20, 2024',
+      description: 'Excited to announce our new environmental cleanup drive. Join us in making Mustafabad cleaner and greener! #GreenMustafabad'
     },
   ];
 
   return (
     <div className="bg-white py-16 px-4 sm:px-6 lg:px-20">
       <div className="max-w-7xl mx-auto">
-        <h3 className="text-gray-600 text-center text-lg font-medium mb-2">Socials</h3>
-        <h2 className="text-primary text-center text-4xl sm:text-5xl font-bold mb-12">Social Media</h2>
+        <h3 className="text-gray-600 text-center text-lg font-medium mb-2">Connect With Us</h3>
+        <h2 className="text-primary text-center text-4xl sm:text-5xl font-bold mb-12">Social Media Updates</h2>
         
         <div className="relative">
           <div className="flex overflow-x-auto gap-8 pb-4 snap-x justify-center items-center">
