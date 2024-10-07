@@ -1,13 +1,16 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
 import ScrollAnimation from "./ScrollAnimation";
-import { Loader2 } from 'lucide-react';
+import { Loader2, Play, ChevronUp, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 const VideoThumbnail = ({ video, onClick, isPlaying = false }) => (
-  <div
-    className={`bg-neutral-500 rounded-lg relative cursor-pointer w-52 h-32 ${
-      isPlaying ? 'border-4 border-blue-500' : ''
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className={`bg-neutral-500 rounded-lg relative cursor-pointer w-52 h-32 overflow-hidden ${
+      isPlaying ? "border-4 border-blue-500" : ""
     }`}
     style={{
       backgroundImage: `url(${video.snippet.thumbnails.medium.url})`,
@@ -16,22 +19,12 @@ const VideoThumbnail = ({ video, onClick, isPlaying = false }) => (
     }}
     onClick={onClick}
   >
-    <div className="absolute inset-0 flex items-center justify-center">
-      <button className="w-12 h-12 bg-white bg-opacity-75 rounded-full flex items-center justify-center">
-        <svg
-          className="w-6 h-6 text-gray-800"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+    <div className="absolute inset-0 p-4  flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 hover:bg-opacity-20">
+      <div className="p-3 bg-white/60 rounded-full">
+        <Play className="w-6 h-6 text-neutral-800" />
+      </div>
     </div>
-  </div>
+  </motion.div>
 );
 
 const Gallery = () => {
@@ -41,6 +34,7 @@ const Gallery = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [startIndex, setStartIndex] = useState(0);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -58,11 +52,11 @@ const Gallery = () => {
               type: "video",
               key: API_KEY,
             },
-          }
+          },
         );
         setVideos(response.data.items);
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
         setError("Failed to fetch videos");
         setLoading(false);
       }
@@ -74,6 +68,7 @@ const Gallery = () => {
   const handleVideoSelect = (index) => {
     setCurrentVideoIndex(index);
     setIsVideoLoading(true);
+    setIsPlaying(true);
   };
 
   const handleScrollUp = () => {
@@ -87,19 +82,21 @@ const Gallery = () => {
       setStartIndex(startIndex + 1);
     }
   };
-  if (loading) return (
-    <div className="flex justify-center items-center h-96">
-      <Loader2 className="animate-spin h-12 w-12 text-primary" />
-    </div>
-  );
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader2 className="animate-spin h-12 w-12 text-primary" />
+      </div>
+    );
   if (error) return <div>{error}</div>;
 
   return (
     <div className="bg-[#f9f9f9] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <ScrollAnimation>
+        <ScrollAnimation delay={0} duration={0.75}>
           <h2 className="text-primary text-4xl sm:text-5xl font-bold mb-8">
-            Ali Mehdi's Vision for Mustafabad
+            Ali Mehdi&apos;s Vision for Mustafabad
           </h2>
         </ScrollAnimation>
         <div className="flex flex-col lg:flex-row gap-6">
@@ -117,19 +114,24 @@ const Gallery = () => {
                     height: "390",
                     width: "100%",
                     playerVars: {
-                      autoplay: 1,
+                      autoplay: isPlaying ? 1 : 0,
                     },
                   }}
                   onReady={() => setIsVideoLoading(false)}
                 />
-                <div className="mt-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="mt-6"
+                >
                   <h3 className="text-2xl font-bold text-secondary mb-2">
                     {videos[currentVideoIndex].snippet.title}
                   </h3>
                   <p className="text-gray-600">
                     {videos[currentVideoIndex].snippet.description}
                   </p>
-                </div>
+                </motion.div>
               </>
             )}
           </ScrollAnimation>
@@ -137,23 +139,15 @@ const Gallery = () => {
             animation="fadeLeft"
             className="lg:w-1/3 flex flex-col gap-4 items-center"
           >
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={handleScrollUp}
               className="bg-white rounded-full p-2 shadow-md"
               disabled={startIndex === 0}
             >
-              <svg
-                className="w-6 h-6 text-gray-800"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+              <ChevronUp className="w-6 h-6 text-gray-800" />
+            </motion.button>
             {videos.slice(startIndex, startIndex + 3).map((video, index) => (
               <VideoThumbnail
                 key={video.id.videoId}
@@ -162,23 +156,15 @@ const Gallery = () => {
                 isPlaying={startIndex + index === currentVideoIndex}
               />
             ))}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={handleScrollDown}
               className="bg-white rounded-full p-2 shadow-md"
               disabled={startIndex + 4 >= videos.length}
             >
-              <svg
-                className="w-6 h-6 text-gray-800"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+              <ChevronDown className="w-6 h-6 text-gray-800" />
+            </motion.button>
           </ScrollAnimation>
         </div>
       </div>
