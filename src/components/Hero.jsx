@@ -4,14 +4,18 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="bg-[#222]/70 text-white py-20 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#222]/70 text-white py-20 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
         <ScrollAnimation
           animation="fadeRight"
           className="w-[40%] max-sm:w-[80%] rounded-xl"
           duration={1}
         >
-          <img src="/hero.png" alt="Ali Mehdi" className=" rounded-xl w-full" />
+          <img
+            src="/hero.png"
+            alt="Ali Mehdi"
+            className=" rounded-xl h-[60vh] w-auto ml-24 -mt-12"
+          />
         </ScrollAnimation>
 
         <div className="lg:w-1/2 lg:pl-12">
@@ -40,7 +44,7 @@ const Hero = () => {
                 to="/joinus"
                 className="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg"
               >
-                Get Involved  
+                Get Involved
               </Link>
               <blockquote className="text-gray-300 italic border-l-4 border-secondary pl-4 max-w-lg text-lg">
                 "#AliForMustafabad

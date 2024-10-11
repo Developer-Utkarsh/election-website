@@ -27,11 +27,11 @@ const Events = () => {
   ];
 
   return (
-    <div className="relative bg-[#F9F9F9] py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative bg-[#F9F9F9] py-16 pb-0 px-4 sm:px-6 xl:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <ScrollAnimation>
           <div className="text-center mb-12">
-            <h3 className="text-gray-600 text-lg font-medium mb-2">
+            <h3 className="text-gray-600 text-xl font-medium mb-2">
               Our Initiatives
             </h3>
             <h2 className="text-primary text-4xl sm:text-5xl font-bold mb-4">
@@ -49,9 +49,9 @@ const Events = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
           <ScrollAnimation
             animation="fadeLeft"
-            className="lg:absolute lg:left-40 lg:max-w-sm lg:text-right"
+            className="xl:absolute xl:left-40 xl:max-w-sm xl:text-right"
           >
-            <div className=" p-6 rounded-lg lg:text-right max-md:bg-white">
+            <div className=" p-6 rounded-xl xl:text-right max-md:bg-white">
               <h3 className="text-xl font-bold mb-3 text-blue-600">
                 Youth Employment
               </h3>
@@ -63,9 +63,9 @@ const Events = () => {
           </ScrollAnimation>
           <ScrollAnimation
             animation="fadeRight"
-            className="lg:absolute lg:right-40 lg:max-w-sm "
+            className="xl:absolute xl:right-40 xl:max-w-sm "
           >
-            <div className=" p-6 rounded-lg text-left max-md:bg-white">
+            <div className=" p-6 rounded-xl text-left max-md:bg-white">
               <h3 className="text-xl font-bold mb-3 text-blue-600">
                 Education for All
               </h3>
@@ -77,9 +77,9 @@ const Events = () => {
           </ScrollAnimation>
           <ScrollAnimation
             animation="fadeLeft"
-            className="lg:absolute lg:left-16 lg:top-48 lg:max-w-sm lg:text-right"
+            className="xl:absolute xl:left-16 xl:top-48 xl:max-w-sm xl:text-right"
           >
-            <div className=" p-6 rounded-lg lg:text-right max-md:bg-white">
+            <div className=" p-6 rounded-xl xl:text-right max-md:bg-white">
               <h3 className="text-xl font-bold mb-3 text-blue-600">
                 Healthcare Improvement
               </h3>
@@ -91,9 +91,9 @@ const Events = () => {
           </ScrollAnimation>
           <ScrollAnimation
             animation="fadeRight"
-            className="lg:absolute lg:right-16  lg:top-48 lg:max-w-sm lg:text-left"
+            className="xl:absolute xl:right-16  xl:top-48 xl:max-w-sm xl:text-left"
           >
-            <div className=" p-6 rounded-lg lg:text-left max-md:bg-white  ">
+            <div className=" p-6 rounded-xl xl:text-left max-md:bg-white  ">
               <h3 className="text-xl font-bold mb-3 text-blue-600">
                 Environmental Protection
               </h3>
@@ -108,7 +108,7 @@ const Events = () => {
           <img
             src="/vision.png"
             alt="Events Bottom Background"
-            className=" z-10  w-[32rem] h-auto rounded-xl"
+            className=" z-10  w-[54rem] ml-8 h-auto rounded-xl"
           />
         </div>
       </div>
