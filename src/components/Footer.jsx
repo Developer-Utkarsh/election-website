@@ -11,10 +11,10 @@ import {
 
 const Footer = () => {
   const quickLinks = [
-    { name: "Home", href: "#" },
-    { name: "About Ali Mehdi", href: "#" },
-    { name: "Vision for Mustafabad", href: "#" },
-    { name: "Get Involved", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "About Ali Mehdi", href: "/about" },
+    { name: "Vision for Mustafabad", href: "/vision" },
+    { name: "Get Involved", href: "/joinus" },
   ];
 
   const socialLinks = [

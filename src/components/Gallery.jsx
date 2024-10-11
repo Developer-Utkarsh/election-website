@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
 import ScrollAnimation from "./ScrollAnimation";
-import { Loader2, Play, ChevronUp, ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { Loader2, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const VideoThumbnail = ({ video, onClick, isPlaying = false }) => (
   <motion.div
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`bg-neutral-500 rounded-lg relative cursor-pointer w-52 h-32 overflow-hidden ${
+    animate={isPlaying ? { scale: 1.1 } : { scale: 1 }}
+    className={`bg-neutral-500 rounded-lg relative cursor-pointer w-[22%] aspect-[9/16] overflow-hidden ${
       isPlaying ? "border-4 border-blue-500" : ""
     }`}
     style={{
@@ -19,11 +20,25 @@ const VideoThumbnail = ({ video, onClick, isPlaying = false }) => (
     }}
     onClick={onClick}
   >
-    <div className="absolute inset-0 p-4  flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 hover:bg-opacity-20">
-      <div className="p-3 bg-white/60 rounded-full">
-        <Play className="w-6 h-6 text-neutral-800" />
+    {isPlaying ? (
+      <YouTube
+        videoId={video.id.videoId}
+        opts={{
+          height: '100%',
+          width: '100%',
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            modestbranding: 1,
+          },
+        }}
+        className="absolute inset-0"
+      />
+    ) : (
+      <div className="absolute inset-0 p-4 flex items-end bg-gradient-to-t from-black to-transparent">
+        <h3 className="text-white text-sm font-semibold line-clamp-2">{video.snippet.title}</h3>
       </div>
-    </div>
+    )}
   </motion.div>
 );
 
@@ -31,10 +46,9 @@ const Gallery = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [startIndex, setStartIndex] = useState(0);
-  const [isVideoLoading, setIsVideoLoading] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -47,7 +61,7 @@ const Gallery = () => {
             params: {
               part: "snippet",
               channelId: CHANNEL_ID,
-              maxResults: 10,
+              maxResults: 20,
               order: "date",
               type: "video",
               key: API_KEY,
@@ -66,108 +80,121 @@ const Gallery = () => {
   }, []);
 
   const handleVideoSelect = (index) => {
-    setCurrentVideoIndex(index);
-    setIsVideoLoading(true);
-    setIsPlaying(true);
+    const selectedVideo = videos[currentPage * 4 + index];
+    setSelectedVideo(selectedVideo);
   };
 
-  const handleScrollUp = () => {
-    if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+  const handlePageChange = (direction) => {
+    if (direction === "left" && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    } else if (direction === "right" && (currentPage + 1) * 4 < videos.length) {
+      setCurrentPage(currentPage + 1);
     }
+    setCurrentVideoIndex(null);
   };
 
-  const handleScrollDown = () => {
-    if (startIndex + 3 < videos.length) {
-      setStartIndex(startIndex + 1);
-    }
-  };
-
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader2 className="animate-spin h-12 w-12 text-primary" />
-      </div>
-    );
+  if (loading) return (
+    <div className="flex justify-center items-center h-96">
+      <Loader2 className="animate-spin h-12 w-12 text-primary" />
+    </div>
+  );
   if (error) return <div>{error}</div>;
+
+  const currentVideos = videos.slice(currentPage * 4, (currentPage + 1) * 4);
 
   return (
     <div className="bg-[#f9f9f9] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <ScrollAnimation delay={0} duration={0.75}>
           <h2 className="text-primary text-4xl sm:text-5xl font-bold mb-8">
-            Ali Mehdi&apos;s Vision for Mustafabad
+            Video Gallery
           </h2>
         </ScrollAnimation>
-        <div className="flex flex-col lg:flex-row gap-6">
-          <ScrollAnimation animation="fadeRight" className="lg:w-2/3">
-            {videos.length > 0 && (
-              <>
-                {isVideoLoading && (
-                  <div className="flex justify-center items-center h-[390px] bg-gray-200">
-                    <Loader2 className="animate-spin h-12 w-12 text-primary" />
-                  </div>
-                )}
-                <YouTube
-                  videoId={videos[currentVideoIndex].id.videoId}
-                  opts={{
-                    height: "390",
-                    width: "100%",
-                    playerVars: {
-                      autoplay: isPlaying ? 1 : 0,
-                    },
-                  }}
-                  onReady={() => setIsVideoLoading(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="mt-6"
-                >
-                  <h3 className="text-2xl font-bold text-secondary mb-2">
-                    {videos[currentVideoIndex].snippet.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {videos[currentVideoIndex].snippet.description}
-                  </p>
-                </motion.div>
-              </>
-            )}
-          </ScrollAnimation>
+        <div className="flex flex-col gap-6">
           <ScrollAnimation
-            animation="fadeLeft"
-            className="lg:w-1/3 flex flex-col gap-4 items-center"
+            animation="fadeUp"
+            className="w-full relative"
           >
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={handleScrollUp}
-              className="bg-white rounded-full p-2 shadow-md"
-              disabled={startIndex === 0}
+              onClick={() => handlePageChange("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10"
+              disabled={currentPage === 0}
             >
-              <ChevronUp className="w-6 h-6 text-gray-800" />
+              <ChevronLeft className="w-6 h-6 text-gray-800" />
             </motion.button>
-            {videos.slice(startIndex, startIndex + 3).map((video, index) => (
-              <VideoThumbnail
-                key={video.id.videoId}
-                video={video}
-                onClick={() => handleVideoSelect(startIndex + index)}
-                isPlaying={startIndex + index === currentVideoIndex}
-              />
-            ))}
+            <div className="flex justify-between items-center space-x-4 py-4">
+              {currentVideos.map((video, index) => (
+                <VideoThumbnail
+                  key={video.id.videoId}
+                  video={video}
+                  onClick={() => handleVideoSelect(currentPage * 4 + index)}
+                  isPlaying={currentPage * 4 + index === currentVideoIndex}
+                />
+              ))}
+            </div>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={handleScrollDown}
-              className="bg-white rounded-full p-2 shadow-md"
-              disabled={startIndex + 4 >= videos.length}
+              onClick={() => handlePageChange("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10"
+              disabled={(currentPage + 1) * 4 >= videos.length}
             >
-              <ChevronDown className="w-6 h-6 text-gray-800" />
+              <ChevronRight className="w-6 h-6 text-gray-800" />
             </motion.button>
           </ScrollAnimation>
+          {currentVideoIndex !== null && (
+            <ScrollAnimation animation="fadeUp" className="mt-6">
+              <h3 className="text-2xl font-bold text-secondary mb-2">
+                {videos[currentVideoIndex].snippet.title}
+              </h3>
+              <p className="text-gray-600">
+                {videos[currentVideoIndex].snippet.description}
+              </p>
+            </ScrollAnimation>
+          )}
         </div>
       </div>
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center"
+            style={{ top: `${window.scrollY-1048}px` }}
+            onClick={() => setSelectedVideo(null)}
+          >
+            <div 
+              className="relative w-full h-[100vh] md:w-4/5 md:h-[70vh] flex items-center justify-center" 
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 z-10"
+                onClick={() => setSelectedVideo(null)}
+              >
+                <X size={24} />
+              </button>
+              <div className="w-full h-[85vh] md:w-4/5 md:h-[70vh]">
+                <YouTube
+                  videoId={selectedVideo.id.videoId}
+                  opts={{
+                    height: '100%',
+                    width: '100%',
+                    playerVars: {
+                      autoplay: 1,
+                      controls: 1,
+                      modestbranding: 1,
+                    },
+                  }}
+                  className="h-full w-full"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

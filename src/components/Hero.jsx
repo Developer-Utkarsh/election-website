@@ -1,5 +1,6 @@
 import React from "react";
 import ScrollAnimation from "./ScrollAnimation";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -7,7 +8,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
         <ScrollAnimation
           animation="fadeRight"
-          className="w-[40%] rounded-xl"
+          className="w-[40%] max-sm:w-[80%] rounded-xl"
           duration={1}
         >
           <img src="/hero.png" alt="Ali Mehdi" className=" rounded-xl w-full" />
@@ -35,11 +36,14 @@ const Hero = () => {
               people of Mustafabad.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <button className="bg-primary hover:bg-blue-600 text-white font-bold py-3 w-full rounded-full transition duration-300 text-lg">
-                Get Involved
-              </button>
+              <Link
+                to="/joinus"
+                className="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg"
+              >
+                Get Involved  
+              </Link>
               <blockquote className="text-gray-300 italic border-l-4 border-secondary pl-4 max-w-lg text-lg">
-                "#AliForMustafabad"
+                "#AliForMustafabad
               </blockquote>
             </div>
           </ScrollAnimation>
